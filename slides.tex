@@ -11,7 +11,7 @@
 \date{\today} 
 \usetheme{CambridgeUS}
 \usecolortheme{seagull}
-\institute{DoctorMobile}
+\institute{Quickoffice}
 
 \begin{document}
 
@@ -109,15 +109,31 @@
 \end{exampleblock}
 \end{frame}
 
+\begin{frame}
+\frametitle{Solution attempt: dealing with base issues with graft}
+\begin{center}
+\includegraphics[width=\textwidth]{img/graft_dealing_with_base}
+\end{center}
+\end{frame}
+
 \begin{frame}[fragile]
 \frametitle{Solution attempt: dealing with base issues with graft}
-\begin{exampleblock}{Using graft}
+\begin{exampleblock}{searching for grafted revisions}
+\begin{Verbatim}[fontsize=\small]
+> hg log -r "ancestor(LOCAL_HEAD,OTHER_HEAD)::LOCAL_HEAD" \
+    -k "grafted" -v
+e.g.
+> hg log -r "ancestor(d5c1ff557965,927d19ecf38e)::d5c1ff557965" \
+    -k "grafted" -v
+\end{Verbatim}
+\end{exampleblock}
+
+\begin{exampleblock}{graft-aware merging}
 \begin{verbatim}
-> hg merge -r GRAFT_REVISION
+> hg merge -R GRAFT_REVISION
 > hg merge
 \end{verbatim}
 \end{exampleblock}
-TODO
 \end{frame}
 
 \begin{frame} 
