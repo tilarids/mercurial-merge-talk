@@ -64,19 +64,63 @@
 \end{frame}
 
 \begin{frame}
-\frametitle{Solution attempt: Graft}
+\frametitle{Solution attempt: Patch}
+\textbf{IDEA}: Why do we even need to use pull?
+\includegraphics[width=\textwidth]{img/using_patch}
+
+\begin{beamercolorbox}[rounded=true,center,shadow=true]{badcolor}
+  Fix A can be based on Feature A so patch will not apply smoothly
+\end{beamercolorbox}
+\begin{beamercolorbox}[rounded=true,center,shadow=true]{badcolor}
+  SCM can't guess that fix A and fix B are actually the same and should be used as base when merging fix C
+\end{beamercolorbox}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Solution attempt: graft}
+\begin{exampleblock}{Using graft}
+\begin{verbatim}
+> hg graft REVISION
+\end{verbatim}
+\end{exampleblock}
+\begin{center}
+\includegraphics[width=0.8\textwidth]{img/using_graft}
+\end{center}
+
+\begin{beamercolorbox}[rounded=true,center,shadow=true]{goodcolor}
+  graft uses 3-way merge and deals fine with Fix A being based on Feature A
+\end{beamercolorbox}
+\begin{beamercolorbox}[rounded=true,center,shadow=true]{badcolor}
+  SCM still can't guess that fix A and fix B are actually the same and should be used as base when merging fix C
+\end{beamercolorbox}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Solution attempt: graft within same branch}
+\begin{exampleblock}{Using graft}
+\begin{verbatim}
+> hg pull
+> hg graft REVISION
+> hg strip
+\end{verbatim}
+\end{exampleblock}
+TODO
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Solution attempt: dealing with base issues with graft}
+\begin{exampleblock}{Using graft}
+\begin{verbatim}
+> hg merge -r GRAFT_REVISION
+> hg merge
+\end{verbatim}
+\end{exampleblock}
 TODO
 \end{frame}
 
 \begin{frame} 
 \frametitle{Solution attempt: Branches alternatives}
 (bookmarks, lbranches, patch queues)
-TODO
-\end{frame}
-
-
-\begin{frame}
-\frametitle{Solution attempt: Graft}
 TODO
 \end{frame}
 
