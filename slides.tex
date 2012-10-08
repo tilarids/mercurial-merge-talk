@@ -1,4 +1,5 @@
 \documentclass{beamer} 
+\usepackage[utf8]{inputenc}
 \usepackage{multicol}
 \usepackage{url}
 \usepackage{fancyvrb}
@@ -166,27 +167,29 @@ Just a local feature
 
 \begin{frame}[fragile]
 \frametitle{Merge}
-\begin{exampleblock}{Naïve approach}
+\begin{columns}[T]
+\begin{column}{0.45\textwidth}
+\begin{exampleblock}{Merging default branches}
 \begin{verbatim}
 > hg co local_branch
 > hg merge remote_branch
-or usually (while in default)
-> hg pull 
-> hg merge 
 \end{verbatim}
 \end{exampleblock}
-\begin{multicols}{2}
-\center{Merging different branches}
-Image with merged branches
-% \includegraphics[width=0.4\textwidth]{img/delorean-blueprint}
-\columnbreak
-\center{Merging default}
-Image with merged defaults
-% \includegraphics[width=0.4\textwidth]{img/delorean}
-\end{multicols}
+\includegraphics[width=\textwidth]{img/two_branches_merged}
+\end{column}
+
+\begin{column}{0.45\textwidth}
+\begin{exampleblock}{Merging heads in default}
+\begin{verbatim}
+> hg merge 
+(while in default)
+\end{verbatim}
+\end{exampleblock}
+\includegraphics[width=0.86\textwidth]{img/two_default_branches_merged}
+\end{column}
+\end{columns}
 \begin{center}
 Isn't always so good :( 
-% \includegraphics[width=0.45\textwidth]{img/chubaka}
 \end{center}
 \end{frame}
 
