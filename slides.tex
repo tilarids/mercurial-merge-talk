@@ -3,8 +3,8 @@
 \usepackage{url}
 \usepackage{fancyvrb}
 \usepackage{color}
-\setbeamercolor{goodcolor}{fg=black,bg=green}
-\setbeamercolor{badcolor}{fg=black,bg=red}
+\setbeamercolor{goodcolor}{fg=black,bg=lime}
+\setbeamercolor{badcolor}{fg=black,bg=pink}
 
 \title{What every programmer should know about merging branches in Mercurial} 
 \author{Sergey Kishchenko} 
@@ -118,7 +118,7 @@
 
 \begin{frame}[fragile]
 \frametitle{Solution attempt: dealing with base issues with graft}
-\begin{exampleblock}{searching for grafted revisions}
+\begin{exampleblock}{Searching for grafted revisions}
 \begin{Verbatim}[fontsize=\small]
 > hg log -r "ancestor(LOCAL_HEAD,OTHER_HEAD)::LOCAL_HEAD" \
     -k "grafted" -v
@@ -138,8 +138,29 @@ e.g.
 
 \begin{frame} 
 \frametitle{Solution attempt: Branches alternatives}
-(bookmarks, lbranches, patch queues)
-TODO
+\begin{itemize}
+\item Bookmarks: \url{http://mercurial.selenic.com/wiki/Bookmarks}
+\begin{beamercolorbox}[rounded=true,center,shadow=true, wd=0.9\textwidth]{goodcolor}
+Lightweight git-like branches, good for local hacking, distributed along with Mercurial. 
+\end{beamercolorbox}
+\begin{beamercolorbox}[rounded=true,center,shadow=true, wd=0.9\textwidth]{badcolor}
+Several heads on default, no trail in history
+\end{beamercolorbox}
+\item Local branches, lbranches: \url{http://mercurial.selenic.com/wiki/LocalbranchExtension}. 
+\begin{beamercolorbox}[rounded=true,center,shadow=true, wd=0.9\textwidth]{goodcolor}
+Lightweight repo clones, good for local hacking
+\end{beamercolorbox}
+\begin{beamercolorbox}[rounded=true,center,shadow=true, wd=0.9\textwidth]{badcolor}
+Just a local feature
+\end{beamercolorbox}
+\item Patch queues, mq: \url{http://mercurial.selenic.com/wiki/MqExtension} 
+\begin{beamercolorbox}[rounded=true,center,shadow=true, wd=0.9\textwidth]{goodcolor}
+Patch series, editable history, distributed along with Mercurial
+\end{beamercolorbox}
+\begin{beamercolorbox}[rounded=true,center,shadow=true, wd=0.9\textwidth]{badcolor}
+Just a local feature
+\end{beamercolorbox}
+\end{itemize}
 \end{frame}
 
 
