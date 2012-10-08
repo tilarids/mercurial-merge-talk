@@ -189,23 +189,99 @@ Just a local feature
 \end{column}
 \end{columns}
 \begin{center}
-Isn't always so good :( 
+It isn't always so good :( 
 \end{center}
 \end{frame}
 
 \begin{frame}
-\frametitle{Probable issues}
+\frametitle{Merge problem: too much conflicts}
 \begin{itemize}
-\item Too much conflicts
-\item Hard to understand the conflict
-\item Code was refactored
-\item Non-source files conflicts
+\item \textbf{Why occurs?}
+\begin{itemize}
+\item Synchronizing rarely
+\item Tight coupling of the components
+\item Too many developers on one component
+\end{itemize}
+\item \textbf{How to prevent?}
+\begin{itemize}
+\item Synchronize often
+\item Simplify connections between components
+\item Design clear and minimalistic API
+\item Notify other developers of the component when doing changes
+\item Don't exceed the reasonable amount of developers on one component 
+\end{itemize}
+\item \textbf{How to deal with?}
+\begin{itemize}
+\item Use a good graphical merge tool that allows 3-way merging
+\item Learn how to use the \textit{resolve} command
+\end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}
-\frametitle{Too much conflicts}
-TODO: Why occurs? How to prevent? How to deal with? 
+\begin{frame}[fragile]
+\frametitle{3-way merge}
+\begin{columns}[T]
+\begin{column}{0.45\textwidth}
+\includegraphics[width=\textwidth]{img/3way_merge}
+
+\begin{exampleblock}{Merged (M)}
+\begin{verbatim}
+line1 modified
+line2
+\end{verbatim}
+\end{exampleblock}
+
+\end{column}
+\begin{column}{0.45\textwidth}
+\begin{exampleblock}{Base (B)}
+\begin{verbatim}
+line1
+\end{verbatim}
+\end{exampleblock}
+
+\begin{exampleblock}{Local (L)}
+\begin{verbatim}
+line1
+line2
+\end{verbatim}
+\end{exampleblock}
+
+\begin{exampleblock}{Remote (R)}
+\begin{verbatim}
+line1 modified
+\end{verbatim}
+\end{exampleblock}
+
+\end{column}
+\end{columns}
+
+\begin{center}
+Without base it's hard to merge Local and Remote files: it's hard to understand was it a removal of "line2" and addition of " modified" or removal of " modified" and addition of "line2" $\to$ use a 3-way graphical merge tool
+Subjective choice: \url{http://mercurial.selenic.com/wiki/KDiff3}
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{\textit{resolve} command}
+Imagine you need to merge \textbf{a lot} of changes
+
+\begin{exampleblock}{Bad idea}
+\begin{verbatim}
+> hg merge # non-stop merging, here I come!
+\end{verbatim}
+\end{exampleblock}
+
+\begin{exampleblock}{Good idea}
+\begin{Verbatim}[fontsize=\footnotesize]
+> hg merge -t "internal:merge" # does the best it can automatically
+> hg resolve -l # shows merge state
+> hg resolve FILE # runs conflict resolving for specific files
+> hg resolve -a # runs conflict resolving for all unresolved files
+\end{Verbatim}
+\end{exampleblock}
+\textbf{IMPORTANT}: Unfortunately, \textit{resolve} command doesn't save progress when interrupted. There is an issue for that: \url{http://bz.selenic.com/show_bug.cgi?id=3638}. 
+
+Possible workaround: iterate through conflicts and call \textit{resolve} for each file
 \end{frame}
 
 \begin{frame}
