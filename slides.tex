@@ -80,7 +80,7 @@
 \frametitle{Solution attempt: graft}
 \begin{exampleblock}{Using graft}
 \begin{verbatim}
-> hg graft REVISION
+> hg graft --log GRAFT_REVISION
 \end{verbatim}
 \end{exampleblock}
 \begin{center}
@@ -96,15 +96,17 @@
 \end{frame}
 
 \begin{frame}[fragile]
-\frametitle{Solution attempt: graft within same branch}
-\begin{exampleblock}{Using graft}
+\frametitle{Solution attempt: grafting from remote repo}
+\textit{hg graft} doesn't deal with changesets from the remote repo at the moment because it needs all of the changes to do 3-way merge. But it's possible to strip changes when they are not needed anymore
+\begin{exampleblock}{grafting from remote repository}
 \begin{verbatim}
-> hg pull
-> hg graft REVISION
-> hg strip
+> hg incoming --template="{node} " REMOTE_REPO -q \ 
+    -r GRAFT_REVISION > TEMP_FILE
+> hg pull -r GRAFT_REVISION REMOTE_REPO
+> hg graft --log GRAFT_REVISION
+> hg strip `cat TEMP_FILE`
 \end{verbatim}
 \end{exampleblock}
-TODO
 \end{frame}
 
 \begin{frame}[fragile]
