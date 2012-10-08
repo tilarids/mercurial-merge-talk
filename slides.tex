@@ -19,23 +19,28 @@
 \frametitle{Branches}
 \begin{multicols}{2}
 \center{Two different branches}
-Image with different branches
-% \includegraphics[width=0.4\textwidth]{img/delorean-blueprint}
+\includegraphics[width=0.4\textwidth]{img/two_branches}
 \columnbreak
-\center{Two different defaults in different repos}
-Image with different defaults
-% \includegraphics[width=0.4\textwidth]{img/delorean}
+\center{Two different defaults}
+\includegraphics[width=0.4\textwidth]{img/two_default_branches}
 \end{multicols}
-\begin{center}
-\textbf{IMPORTANT: Branches in Mercurial are permanent! There are some alternatives that we leave out of the scope}
-\end{center}
+\begin{itemize}
+\item \textbf{NOTE}: Different repos cloned from one source are not actually different, they are more like one repo. You can transfer changes between them with push and pull
+\item \textbf{IMPORTANT}: Branches in Mercurial are permanent!
+\end{itemize}
 \end{frame}
 
-\begin{frame} 
+\begin{frame}[fragile]
 \frametitle{Pull}
+\begin{exampleblock}{First step in merge process: pulling remote changes}
+\begin{verbatim}
+> hg pull -b REMOTE_BRANCH REMOTE_REPO
+\end{verbatim}
+\end{exampleblock}
+\includegraphics[width=\textwidth]{img/pull_branches}
 \begin{itemize}
-\item Pulling some changes results in pulling all its ancestors
-\item Pulling some changes may result in creating new heads in branches 
+\item Pulling changes results in pulling all its ancestors
+\item Pulling changes may result in creating new heads in branches 
 \end{itemize}
 \end{frame}
 
