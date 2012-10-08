@@ -3,6 +3,8 @@
 \usepackage{url}
 \usepackage{fancyvrb}
 \usepackage{color}
+\setbeamercolor{goodcolor}{fg=black,bg=green}
+\setbeamercolor{badcolor}{fg=black,bg=red}
 
 \title{What every programmer should know about merging branches in Mercurial} 
 \author{Sergey Kishchenko} 
@@ -26,7 +28,7 @@
 \end{multicols}
 \begin{itemize}
 \item \textbf{NOTE}: Different repos cloned from one source are not actually different, they are more like one repo. You can transfer changes between them with push and pull
-\item \textbf{IMPORTANT}: Branches in Mercurial are permanent!
+\item \textbf{IMPORTANT}: Named branches in Mercurial are permanent!
 \end{itemize}
 \end{frame}
 
@@ -39,34 +41,45 @@
 \end{exampleblock}
 \includegraphics[width=\textwidth]{img/pull_branches}
 \begin{itemize}
-\item Pulling changes results in pulling all its ancestors
-\item Pulling changes may result in creating new heads in branches 
+\item Pulling change pulls also all its ancestors $\to$ unneeded changes
+\item Pulling changes may result in creating new heads $\to$ merge is needed
 \end{itemize}
 \end{frame}
 
-\begin{frame} 
-\frametitle{Solutions}
-\begin{itemize}
-\item Use branches alternatives (bookmarks, lbranches)
-\item Use "early-fix" branches 
-\item Use graft
-\end{itemize}
-\end{frame}
-
-\begin{frame} 
-\frametitle{Branches alternatives}
-TODO
+\begin{frame}
+\frametitle{Solution attempt: "early-fix" branch}
+\begin{multicols}{2}
+\center{Bad idea}
+\includegraphics[width=0.4\textwidth]{img/early_fix_branch_bad}
+\columnbreak
+\center{Good idea}
+\includegraphics[width=0.4\textwidth]{img/early_fix_branch_good}
+\end{multicols}
+\begin{beamercolorbox}[rounded=true,center,shadow=true]{goodcolor}
+  Having a specific fix branch allows pulling this branch without pulling other changes (Feature A)
+\end{beamercolorbox}
+\begin{beamercolorbox}[rounded=true,center,shadow=true]{badcolor}
+  You should think about it in advance and you're not a psychic
+\end{beamercolorbox}
 \end{frame}
 
 \begin{frame}
-\frametitle{"Early-fix" branches}
+\frametitle{Solution attempt: Graft}
 TODO
 \end{frame}
 
-\begin{frame}
-\frametitle{Graft}
+\begin{frame} 
+\frametitle{Solution attempt: Branches alternatives}
+(bookmarks, lbranches, patch queues)
 TODO
 \end{frame}
+
+
+\begin{frame}
+\frametitle{Solution attempt: Graft}
+TODO
+\end{frame}
+
 
 \begin{frame}[fragile]
 \frametitle{Merge}
