@@ -22,13 +22,13 @@
 \frametitle{Branches}
 \begin{multicols}{2}
 \center{Two different branches}
-\includegraphics[width=0.4\textwidth]{img/two_branches}
+\includegraphics[width=0.53\textwidth]{img/two_branches}
 \columnbreak
 \center{Two different defaults}
-\includegraphics[width=0.4\textwidth]{img/two_default_branches}
+\includegraphics[width=0.44\textwidth]{img/two_default_branches}
 \end{multicols}
 \begin{itemize}
-\item \textbf{NOTE}: Different repos cloned from one source are not actually different, they are more like one repo. You can transfer changes between them with push and pull
+\item \textbf{NOTE}: Different repos cloned from one source are not actually different, they are essentially same repo. You can transfer changesets between them with push and pull
 \item \textbf{IMPORTANT}: Named branches in Mercurial are permanent!
 \end{itemize}
 \end{frame}
@@ -44,6 +44,7 @@
 \begin{itemize}
 \item Pulling change pulls also all its ancestors $\to$ unneeded changes
 \item Pulling changes may result in creating new heads $\to$ merge is needed
+\item Pulling branch pulls also all branches it's based on $\to$ merge is needed
 \end{itemize}
 \end{frame}
 
@@ -73,7 +74,7 @@
   Fix A can be based on Feature A so patch will not apply smoothly
 \end{beamercolorbox}
 \begin{beamercolorbox}[rounded=true,center,shadow=true]{badcolor}
-  SCM can't guess that fix A and fix B are actually the same and should be used as base when merging fix C
+  SCM can't guess that Fix A and Fix B are actually the same and should be used as base when merging Fix C
 \end{beamercolorbox}
 \end{frame}
 
@@ -92,13 +93,13 @@
   graft uses 3-way merge and deals fine with Fix A being based on Feature A
 \end{beamercolorbox}
 \begin{beamercolorbox}[rounded=true,center,shadow=true]{badcolor}
-  SCM still can't guess that fix A and fix B are actually the same and should be used as base when merging fix C
+  SCM still can't guess that Fix A and Fix A' are actually the same and should be used as base when merging Fix C
 \end{beamercolorbox}
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{Solution attempt: grafting from remote repo}
-\textit{hg graft} doesn't deal with changesets from the remote repo at the moment because it needs all of the changes to do 3-way merge. But it's possible to strip changes when they are not needed anymore
+\textit{graft} doesn't deal with changesets from the remote repo at the moment because it needs all of the changes to do 3-way merge. But it's possible to strip changes when they are not needed anymore
 \begin{exampleblock}{grafting from remote repository}
 \begin{verbatim}
 > hg incoming --template="{node} " REMOTE_REPO -q \ 
@@ -145,7 +146,7 @@ e.g.
 Lightweight git-like branches, good for local hacking, distributed along with Mercurial. 
 \end{beamercolorbox}
 \begin{beamercolorbox}[rounded=true,center,shadow=true, wd=0.9\textwidth]{badcolor}
-Several heads on default, no trail in history
+Several heads on default branch, no trail in history
 \end{beamercolorbox}
 \item Local branches, lbranches: \url{http://mercurial.selenic.com/wiki/LocalbranchExtension}. 
 \begin{beamercolorbox}[rounded=true,center,shadow=true, wd=0.9\textwidth]{goodcolor}
@@ -179,17 +180,17 @@ Just a local feature
 \end{column}
 
 \begin{column}{0.45\textwidth}
-\begin{exampleblock}{Merging heads in default}
+\begin{exampleblock}{Merging heads in default branch}
 \begin{verbatim}
 > hg merge 
-(while in default)
+(while in default branch)
 \end{verbatim}
 \end{exampleblock}
 \includegraphics[width=0.86\textwidth]{img/two_default_branches_merged}
 \end{column}
 \end{columns}
 \begin{center}
-It isn't always so good :( 
+Looks easy, huh? But it is not easy at all because of possible conflicts
 \end{center}
 \end{frame}
 
@@ -222,7 +223,7 @@ It isn't always so good :(
 
 \begin{frame}[fragile]
 \frametitle{3-way merge}
-\begin{columns}[T]
+\begin{columns}[b]
 \begin{column}{0.45\textwidth}
 \includegraphics[width=\textwidth]{img/3way_merge}
 
@@ -257,10 +258,10 @@ line1 modified
 \end{column}
 \end{columns}
 
-\begin{center}
 Without base it's hard to merge Local and Remote files: it's hard to understand was it a removal of "line2" and addition of " modified" or removal of " modified" and addition of "line2" $\to$ use a 3-way graphical merge tool
+
 Subjective choice: \url{http://mercurial.selenic.com/wiki/KDiff3}
-\end{center}
+
 \end{frame}
 
 \begin{frame}[fragile]
@@ -323,14 +324,14 @@ Also known as "It seems the code was removed remotely so I can drop the local ch
 \end{itemize}
 \item \textbf{How to prevent?}
 \begin{itemize}
-\item Spread the components knowledge among developers $\to$ code cross-review
-\item Use "early-fix" branches for refactoring and merge them immediately
+\item Spread the ongoing refactoring knowledge among developers $\to$ code cross-review
+\item Use "early-fix" branch for refactoring and merge it immediately or notify everyone about it
 \end{itemize}
 \item \textbf{How to deal with?}
 \begin{itemize}
 \item Use help from those who have good knowledge about the refactoring
-\item In case different refactoring was done in both local and remote versions, you're DOOMed :(
 \item Use 3-way merge (check next slide)
+\item In case different refactoring was done in both local and remote versions, you're DOOMed :(
 \end{itemize}
 \end{itemize}
 \end{frame}
@@ -340,13 +341,13 @@ Also known as "It seems the code was removed remotely so I can drop the local ch
 \begin{enumerate}
 \item Use 3-way merge graphical tool to see base(B), local(L) and remote(R) version of a file
 \item Let's assume refactoring was done only in remote. It means that base-local difference is not large, it's all about modifying names, adding params, issues fix, etc. Base and remote differ a lot, often the remote version is completely missing, i.e., was moved to different file.
-\item Use \textit{log} to identify what was refactoring about. E.g., you can find the file that is a new home for code that is missing from the R
+\item Use \textit{log} to identify what was refactoring about. E.g., you can find the file that is a new home for the code that is missing from the R
 \begin{exampleblock}{Use \textit{log} to find refactoring changesets}
 \begin{verbatim}
 > hg log --removed --follow R 
 \end{verbatim}
 \end{exampleblock}
-\item Iterate through base-local differences change-by-change and apply them to the code in a correct-place
+\item Iterate through base-local differences change by change and apply them to the code in a correct place
 \item In any case consider contacting those who did the refactoring for help and/or code review
 \end{enumerate}
 \end{frame}
@@ -371,7 +372,7 @@ Also known as "It seems the code was removed remotely so I can drop the local ch
 \item \textbf{How to deal with?}
 \begin{itemize}
 \item Consider using a specialized tools to merge specific files
-\item In case files are not mergeable choose either local or remote version and try to reproduce all of the changes from other version
+\item In case files are not mergeable choose either local or remote version and try to reproduce all of the changes from the other version
 \end{itemize}
 \end{itemize}
 \end{frame}
@@ -380,7 +381,7 @@ Also known as "It seems the code was removed remotely so I can drop the local ch
 \frametitle{One more time: good things}
 \begin{itemize}
 \item Using branches wisely
-\item Specifying branch for pulling
+\item Specifying branch for pulling and pushing
 \item Using graft
 \item Using good graphical tool for merging
 \item Using 3-way merge
@@ -388,6 +389,8 @@ Also known as "It seems the code was removed remotely so I can drop the local ch
 \item Getting knowledge from others when merging theirs code
 \item Providing help to those who merge your code
 \item Providing a good description for the changes
+\item Using \textit{hg cp} and \textit{hg mv} commands to copy and rename/move files
+\item Cross-code reviews
 \item Writing easy understandable code!
 \end{itemize}
 \end{frame}
@@ -402,6 +405,7 @@ Also known as "It seems the code was removed remotely so I can drop the local ch
 \item Using bad names for branches
 \item Using branches without bookmarking or naming them
 \item Using \textrm{-}\textrm{-force} flag
+\item Copying and moving files without using \textit{hg cp}/\textit{hg mv} 
 \end{itemize}
 \end{frame}
 
@@ -410,7 +414,8 @@ Also known as "It seems the code was removed remotely so I can drop the local ch
 \begin{itemize}
 \item Doing a refactoring that can't be merged into all branches immediately
 \item Modifying non-source file without merging it into all branches immediately
-\item Modifying a component that somebody is working on without notifying him 
+\item Modifying a component that somebody is working on without notifying this person 
+\item Storing autogenerated code and user settings in the code tree
 \end{itemize}
 \end{frame}
 
